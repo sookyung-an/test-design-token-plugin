@@ -33,26 +33,31 @@ const PluginUi = () => {
   const [figmaMetaData, setFigmaMetaData] = useState(null)
   const [settings, updateSettings] = useImmer(defaultSettings)
 
-  console.log(12)
 
   // listen to messages
   // eslint-disable-next-line
   onmessage = (event: PluginEvent) => {
-    console.log(event)
-    // capture message
-    // const { command, payload } =
-    //   event.data.pluginMessage ||
-    //   ({} as { command: PluginCommands; payload: any })
+    const { payload } =
+      event.data.pluginMessage ||
+      ({} as { command: PluginCommands; payload: any })
+
+    if (payload) {
+      updateSettings({
+        ...payload.settings,
+        filename: payload.settings?.filename || payload.metadata?.filename
+      })
+      setFigmaMetaData(payload.metadata)
+      setVersionDifference(payload.versionDifference)
+      setTokens(payload.data)
+    }
+
     // // set settings
     // if (
     //   [commands.urlExport, commands.export, commands.generalSettings].includes(
     //     command
     //   )
     // ) {
-    //   updateSettings({
-    //     ...payload.settings,
-    //     filename: payload.settings.filename || payload.metadata.filename
-    //   })
+
     //   setVersionDifference(payload.versionDifference)
     //   setFigmaMetaData(payload.metadata)
     //   setTokens(payload.data)
@@ -82,8 +87,7 @@ const PluginUi = () => {
             onKeyDown={(e) => handleKeyboardInput(e, figmaUIApi)}
           >
             <VersionNotice versionDifference={versionDifference} />
-            123
-            {/* <GeneralSettings /> */}
+            <GeneralSettings />
           </main>
         </TokenContext.Provider>
       </SettingsContext.Provider>

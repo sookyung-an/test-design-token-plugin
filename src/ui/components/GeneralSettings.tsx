@@ -110,8 +110,8 @@ export const GeneralSettings = () => {
           type="text"
           required
           pattern="^[\w\d\s\[\]._\-]+$"
-          placeholder={figmaMetaData.filename}
-          value={settings.filename}
+          placeholder={figmaMetaData?.filename}
+          value={settings?.filename}
           onChange={(value) =>
             updateSettings((draft: Settings) => {
               draft.filename = value

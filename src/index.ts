@@ -12,52 +12,52 @@ import { stringifyJson } from '@utils/stringifyJson'
 figma.showUI(__html__)
 
 // wrap in function because of async client Storage
-// const openUi = async () => {
-//   // Get the user settings
-//   const userSettings: UserSettings = getSettings()
-//   // get the current version differences to the last time the plugin was opened
-//   const versionDifference = await getVersionDifference(figma)
-//   // resize UI if needed
-//   figma.ui.resize(
-//     config.ui[figma.command].width,
-//     config.ui[figma.command].height
-//   )
-//   if (versionDifference !== undefined && versionDifference !== 'patch') {
-//     figma.ui.resize(
-//       config.ui[figma.command].width,
-//       config.ui[figma.command].height + 60
-//     )
-//   }
-//   const postMessageObject = {
-//     command: figma.command as PluginCommands,
-//     payload: {
-//       settings: {
-//         ...userSettings,
-//         ...{ accessToken: await getAccessToken(getFileId(figma)) }
-//       },
-//       data: null,
-//       versionDifference: versionDifference,
-//       metadata: {
-//         filename: figma.root.name
-//       }
-//     }
-//   }
+const openUi = async () => {
+  // Get the user settings
+  const userSettings: UserSettings = getSettings()
+  // get the current version differences to the last time the plugin was opened
+  const versionDifference = await getVersionDifference(figma)
+  // resize UI if needed
+  // figma.ui.resize(
+  //   config.ui[figma.command].width,
+  //   config.ui[figma.command].height
+  // )
+  // if (versionDifference !== undefined && versionDifference !== 'patch') {
+  //   figma.ui.resize(
+  //     config.ui[figma.command].width,
+  //     config.ui[figma.command].height + 60
+  //   )
+  // }
+  const postMessageObject = {
+    command: figma.command as PluginCommands,
+    payload: {
+      settings: {
+        ...userSettings,
+        ...{ accessToken: await getAccessToken(getFileId(figma)) }
+      },
+      data: null,
+      versionDifference: versionDifference,
+      metadata: {
+        filename: figma.root.name
+      }
+    }
+  }
 
-//   if (
-//     [commands.export, commands.urlExport].includes(
-//       figma.command as PluginCommands
-//     )
-//   ) {
-//     postMessageObject.payload.data = stringifyJson(
-//       await exportRawTokenArray(figma, userSettings)
-//     )
-//   }
-//   figma.ui.postMessage({ ...postMessageObject })
-//   // register the settings UI
-//   figma.ui.show()
-// }
-// // run function
-// openUi()
+  if (
+    [commands.export, commands.urlExport].includes(
+      figma.command as PluginCommands
+    )
+  ) {
+    postMessageObject.payload.data = stringifyJson(
+      await exportRawTokenArray(figma, userSettings)
+    )
+  }
+  figma.ui.postMessage({ ...postMessageObject })
+  // register the settings UI
+  figma.ui.show()
+}
+// run function
+openUi()
 
 // /**
 //  * React to messages

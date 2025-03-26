@@ -16,6 +16,7 @@ import { getVariables } from './getVariables'
 
 const getPrefixArray = (prefixString = '') => prefixString.split(',').map(item => item.replace(/\s+/g, ''))
 
+// TODO: preview 보이도록 구현 => 이 JSON을 Markdown View로 보이도록 구현
 export const exportRawTokenArray = async (figma: PluginAPI, settings: Settings) => {
   const figmaData: figmaDataType = await buildFigmaData(figma, settings)
   // get tokens
