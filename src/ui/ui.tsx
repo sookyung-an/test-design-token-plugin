@@ -29,48 +29,61 @@ const style = css`
 
 const PluginUi = () => {
   const [versionDifference, setVersionDifference] = useState(null)
-  const [activePage, setActivePage] = useState(null)
   const [tokens, setTokens] = useState(null)
   const [figmaMetaData, setFigmaMetaData] = useState(null)
   const [settings, updateSettings] = useImmer(defaultSettings)
 
+  console.log(12)
+
   // listen to messages
   // eslint-disable-next-line
   onmessage = (event: PluginEvent) => {
+    console.log(event)
     // capture message
-    const { command, payload } = event.data.pluginMessage || {} as {command: PluginCommands, payload: any}
-    // set settings
-    if ([commands.urlExport, commands.export, commands.generalSettings].includes(command)) {
-      updateSettings({
-        ...payload.settings,
-        filename: payload.settings.filename || payload.metadata.filename
-      })
-      setVersionDifference(payload.versionDifference)
-      setFigmaMetaData(payload.metadata)
-      setTokens(payload.data)
-      // activate page
-      setActivePage(command)
-    }
-    // open url
-    if ([commands.help, commands.demo, commands.openUrl].includes(command)) {
-      window.open(payload.url)
-      parent.postMessage({
-        pluginMessage: {
-          command: commands.closePlugin
-        }
-      }, '*')
-    }
+    // const { command, payload } =
+    //   event.data.pluginMessage ||
+    //   ({} as { command: PluginCommands; payload: any })
+    // // set settings
+    // if (
+    //   [commands.urlExport, commands.export, commands.generalSettings].includes(
+    //     command
+    //   )
+    // ) {
+    //   updateSettings({
+    //     ...payload.settings,
+    //     filename: payload.settings.filename || payload.metadata.filename
+    //   })
+    //   setVersionDifference(payload.versionDifference)
+    //   setFigmaMetaData(payload.metadata)
+    //   setTokens(payload.data)
+    //   // activate page
+    //   setActivePage(command)
+    // }
+    // // open url
+    // if ([commands.help, commands.demo, commands.openUrl].includes(command)) {
+    //   window.open(payload.url)
+    //   parent.postMessage(
+    //     {
+    //       pluginMessage: {
+    //         command: commands.closePlugin
+    //       }
+    //     },
+    //     '*'
+    //   )
+    // }
   }
 
   return (
     <FigmaContext.Provider value={{ figmaUIApi, figmaMetaData }}>
       <SettingsContext.Provider value={{ settings, updateSettings }}>
         <TokenContext.Provider value={{ tokens, setTokens }}>
-          <main className={style} onKeyDown={e => handleKeyboardInput(e, figmaUIApi)}>
+          <main
+            className={style}
+            onKeyDown={(e) => handleKeyboardInput(e, figmaUIApi)}
+          >
             <VersionNotice versionDifference={versionDifference} />
-            {activePage === commands.generalSettings && <GeneralSettings />}
-            {activePage === commands.export && <FileExportSettings />}
-            {activePage === commands.urlExport && <UrlExportSettings />}
+            123
+            {/* <GeneralSettings /> */}
           </main>
         </TokenContext.Provider>
       </SettingsContext.Provider>
@@ -78,5 +91,5 @@ const PluginUi = () => {
   )
 }
 
-const root = createRoot(document.getElementById('pluginUI')) // createRoot(container!) if you use TypeScript
+const root = createRoot(document.getElementById('pluginUI'))
 root.render(<PluginUi />)

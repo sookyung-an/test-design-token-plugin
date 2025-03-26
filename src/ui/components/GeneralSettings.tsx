@@ -53,8 +53,8 @@ export const GeneralSettings = () => {
   const [isStandard, setStandard] = useState(false)
   const { figmaUIApi, figmaMetaData } = useContext(FigmaContext)
   const { settings, updateSettings } = useContext<{
-    settings: Settings;
-    updateSettings: any;
+    settings: Settings
+    updateSettings: any
   }>(SettingsContext)
 
   const handleFormSubmit = (event) => {
@@ -282,10 +282,12 @@ export const GeneralSettings = () => {
         Resolve same collection or same mode variables references (experimental)
       </Title>
       <Text className={textStyle} size="small">
-        Resolves the variable reference made to other variables in the same collection or in the same mode.
+        Resolves the variable reference made to other variables in the same
+        collection or in the same mode.
       </Text>
       <Text className={textStyle} size="small">
-        This feature is EXPERIMENTAL and may break in setups with a large number of variables definitions.
+        This feature is EXPERIMENTAL and may break in setups with a large number
+        of variables definitions.
       </Text>
       <Row>
         <Checkbox
@@ -340,7 +342,7 @@ export const GeneralSettings = () => {
             <Input
               type="text"
               // eslint-disable-next-line
-              pattern={isStyle(key) ? "^[\\w\\-@]+$" : "^[\\w\\-@,\\s]+$"}
+              pattern={isStyle(key) ? '^[\\w\\-@]+$' : '^[\\w\\-@,\\s]+$'}
               required
               placeholder={key}
               value={currentValue}

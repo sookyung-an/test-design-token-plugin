@@ -1,14 +1,15 @@
 /* istanbul ignore file */
-export type PluginCommands = 'generalSettings' |
-  'export' |
-  'sendSettings' |
-  'saveSettings' |
-  'help' |
-  'demo' |
-  'openUrl' |
-  'reset' |
-  'urlExport' |
-  'closePlugin'
+export type PluginCommands =
+  | 'generalSettings'
+  | 'export'
+  | 'sendSettings'
+  | 'saveSettings'
+  | 'help'
+  | 'demo'
+  | 'openUrl'
+  | 'reset'
+  | 'urlExport'
+  | 'closePlugin'
 
 export const commands = {
   generalSettings: 'generalSettings' as PluginCommands,
